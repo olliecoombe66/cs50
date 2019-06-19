@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
+    <h1 class="mb-3">Birdsong</h1>
+
+    <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
+
+    <p> Hello world </p>
+
+    {{bird_dictionary}}
+
+    {% for row in bird_dictionary %}
+
+
+    
+    {{row[1]}}
+    <br>
+
+
+
+    <audio controls><source src="/static/songs/xc{{row[0]}}.flac" type="audio/flac">
+    </audio>
+
+    <br>
+    <br>
+
+
+    {% endfor %}
+
+    
+
+
+
+    <script>
+
+    function validateForm() {
+        var x = document.forms["myForm"]["firstname"].value;
+        var y = document.forms["myForm"]["lastname"].value;
+            var z = document.forms["myForm"]["order"].value;
+        if(x == "" || y =="") {
+            alert("Name must be filed out");
+            return false;
+        }
+        else if(z == "") {
+            alert("Order must be filed out");
+            return false;
+        }
+
+    }
+
+
+    </script>
+
+{% endblock %}
