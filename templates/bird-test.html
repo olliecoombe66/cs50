@@ -6,21 +6,41 @@
     <h1 class="mb-3">Birdsong</h1>
 
     <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
-    <form id = "birds"></form>
+    <form id = "birds" class="form"></form>
     
-    {% for dict_item in bird_dictionary %}    
-    <p>Bird name: {{dict_item['name']}} </p>
-        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['name']}}"> <label for="{{dict_item['name']}}">{{dict_item['name']}}</label>
-        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_a']}}"> <label for="{{dict_item['option_a']}}">{{dict_item['option_a']}}</label>
-        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_b']}}"> <label for="{{dict_item['option_b']}}">{{dict_item['option_b']}}</label>
-        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_c']}}"> <label for="{{dict_item['option_c']}}">{{dict_item['option_c']}}</label>
-    </form>
-    <button class ="btn btn-primary" onclick="checkAnswer()" value="check">check</button>
-
-    <br>
-    <br>
-
+    {% for dict_item in bird_dictionary %}  
     <audio controls><source src="/static/songs/xc{{dict_item['file_id']}}.flac" type="audio/flac"></audio> 
+        
+        <br>
+        <div class ="inputGroup">
+        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['name']}}" />
+        <label for="radio">{{dict_item['name']}}</label>
+        </div>
+
+        <div class ="inputGroup">
+        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_a']}}">
+        <label for="radio">{{dict_item['option_a']}}</label>
+        </div>
+
+        <div class ="inputGroup">
+        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_b']}}">
+        <label for="radio">{{dict_item['option_b']}}</label>
+        </div>
+
+        <div class ="inputGroup">
+        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_c']}}">
+        <label for="radio">{{dict_item['option_c']}}</label>
+        </div>
+    
+    </form>
+
+    <br>
+    
+    <button class ="btn btn-primary" onclick="checkAnswer()" value="check">Check</button>
+
+    <br>
+    <br>
+
 
     {% endfor %}
 

@@ -47,24 +47,34 @@ def difficulty():
 
 		#execute query
 		cursor = connection.cursor()
-		cursor.execute("SELECT file_id, english_cname,difficulty FROM birdsong_metadata WHERE difficulty = %s)", (difficulty))
+		cursor.execute("SELECT DISTINCT english_cname,file_id, difficulty, option_a, option_b, option_c, question_id  FROM birdsong_metadata WHERE difficulty = ? GROUP BY english_cname", (difficulty))
 		
 		#get all responses
 		rows = cursor.fetchall()
+
+		#create dictionary for result (not used)
+		result = []
+		for row in rows:
+			d = dict()
+			d['name'] = row[0]
+			d['file_id'] = row[1]
+			d['difficulty'] = row[2]
+			d['option_a'] = row[3]
+			d['option_b'] = row[4]
+			d['option_c'] = row[5]
+			d['question_id'] = row[6]
+			result.append(d)
+
+		print(result)
+	
 		connection.commit()
 		msg="Done"
 
-		return render_template("/birds.html", bird_dictionary=rows)
+		return render_template("/bird-test.html", bird_dictionary=result)
 
 @app.route("/", methods=["GET"])
 def get_index():
 	return render_template("/difficulty.html")
 
-
-@app.route("/birds", methods=["POST", "GET"])
-def birds():
-
-	return render_template("/birds.html", rows=bird_dictionary)
-		#, bird_dictionary=rows"""
 
 
