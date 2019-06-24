@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
+    <h1 class="mb-3">Birdsong</h1>
+
+    <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
+
+    {{bird_dictionary}}
+
+    <p> Hello world </p>
+
+    {% for dict_item in bird_dictionary %}
+
+    {{dict_item['name']}}
+   {{dict_item['option_a']}}
+
+        
+
+
+    {% endfor%}
+    <script>
+
+    </script>
+
+{% endblock %}
