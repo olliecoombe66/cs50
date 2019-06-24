@@ -4,6 +4,10 @@ nav .navbar-brand
     font-size: xx-large;
 }
 
+p1, form, label, h1, button {
+    font-family: "American Typewriter"
+}
+
 /* colors for brand */
 nav .navbar-brand .blue
 {
@@ -13,6 +17,20 @@ nav .navbar-brand .red
 {
     color: #ea433b;
 }
+
+.btn-primary {
+    background-color: #000000;
+    border-color: #000000;
+    width: 200px;
+    margin: 20px;
+}
+
+.btn-primary:hover {
+    background-color: grey;
+    border-color: grey;
+
+}
+
 nav .navbar-brand .yellow
 {
     color: #f5b82e;
@@ -56,5 +74,9 @@ table
 th
 {
     font-weight: bold;
+}
+
+div[name="correct"],[name="incorrect"] {
+    display: none
 }
 

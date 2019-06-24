@@ -36,7 +36,14 @@
 
     <br>
     
-    <button class ="btn btn-primary" onclick="checkAnswer()" value="check">Check</button>
+    <button class ="btn btn-primary" onclick="checkAnswer(name)" name="{{dict_item['question_id']}}" value="check">Check</button>
+
+    <div id="correct_{{dict_item['question_id']}}" name="correct">
+        Correct
+    </div>
+    <div id="incorrect_{{dict_item['question_id']}}" name="incorrect">
+        Incorrect
+    </div>
 
     <br>
     <br>
@@ -44,16 +51,17 @@
 
     {% endfor %}
 
-
-
     <script>
     
-    function checkAnswer() {
-        //Check user answer
+    function checkAnswer(name) {
+
+        //Gets user value        
         var y = document.querySelector('input[name="bird_check"]:checked').value;
 
+        //Gets ID of answer user selected
         var r = document.querySelector('input[name="bird_check"]:checked').id;
 
+        //List of all answers
         var answers = {
             "qid001":	"Long-tailed Tit",
             "qid002":	"Long-tailed Tit",
@@ -321,13 +329,19 @@
             "qid264":	"Northern Lapwing"
         }
 
+        //Gets correct answer for question ID
         var d = answers[r]
 
+        //Compares user answer to the actual answer and returns message if it is wrong/right
         if (y == d) {
-            alert("Correct")
+            document.getElementById('correct_'+name).style.display = "block";
+            document.getElementById('incorrect_'+name).style.display = "none";
+
         }
         else {
-            alert("Not correct")
+            document.getElementById('incorrect_'+name).style.display = "block";
+            document.getElementById('correct_'+name).style.display = "none";
+
         }
     }
 
