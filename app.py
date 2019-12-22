@@ -1,6 +1,6 @@
 import csv
 
-from flask import Flask, jsonify, redirect, render_template, request, session
+from flask import Flask, jsonify, redirect, render_template, request, session, flash
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
@@ -10,6 +10,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'birds.db'
 app.config.from_object(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
+
 
 Session(app)
 
@@ -84,56 +85,85 @@ def register():
 		confirm_password = request.form.get("confirm_password")
 		hash = generate_password_hash(password)
 
+
 		connection = sqlite3.connect('birds.db')
 		cursor = connection.cursor()
-		cursor.execute("INSERT INTO users (`user_name`, `password`,`level`) VALUES (?,?,?)", (username,password,1,))
-		connection.commit()
+		x = cursor.execute("SELECT * FROM users WHERE user_name = ?", (username))
 
 
-		return render_template("difficulty.html")
+		if username == '':
+			error = 'Username cannot be blank'
+			return render_template("register.html", error=error)
 
+		elif password == '':
+			error = 'Password may not be blank'
+			return render_template("register.html", error=error)
 
-"""
-		if username == None:
-        	return(0)
-        elif password != confirm_password:
-        	return0
-        elif not new_user_id:
-            return 0
-        else:
-            session["user_id"] = new_user_id
-"""
+		elif password != confirm_password:
+			error = 'Passwords do not match'
+			return render_template("register.html", error=error)
 
-@app.route("/login", methods=["GET"])
+		elif int(len(x)) > 0:
+			flash("That username is already taken, please choose another")
+			print(x)
+			return render_template('register.html')
+
+		else:
+			cursor.execute("INSERT INTO users (`user_name`, `password`,`level`) VALUES (?,?,?)", (username,hash,1,)
+
+			return render_template("difficulty.html",error=error)
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
 	# Forget any user_id
-    session.clear()
+    #session.clear()
+	if(request.method == "GET"):
+		return render_template("login.html")
 
     # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
+	elif(request.method == "POST"):
+		username = request.form.get("username")
+		password = request.form.get("password")
 
-        # Ensure username was submitted
-        
+		# Ensure username was submitted
+		if(username == ''):
+			error = 'Username cannot be blank'
+			return render_template("login.html", error=error)
 
-        # Ensure password was submitted
+		# Ensure password was submitted
+		elif(password == ''):
+			error = 'Password may not be blank'
+			return render_template("login.html", error=error)
 
-        # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = :username",
-                          username=request.form.get("username"))
+		else: 
+			
+			hash = generate_password_hash(password)
+			connection = sqlite3.connect('birds.db')
+			cursor = connection.cursor()
+			cursor.execute("SELECT * FROM users WHERE user_name = ?", (username,))
 
-        # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return apology("invalid username and/or password", 403)
+			check = cursor.fetchall()
+			print(check)
+			exit(0)
 
-        # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
 
-        # Redirect user to home page
-        return render_template("/difficulty.html")
+		# Ensure password was submitted
 
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("login.html")
+		# Query database for username
+		# rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
+
+		# Ensure username exists and password is correct
+		# if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+		# 	return apology("invalid username and/or password", 403)
+
+		# Remember which user has logged in
+		# session["user_id"] = rows[0]["id"]
+
+		# Redirect user to home page
+		# return render_template("/difficulty.html")
+
+		# User reached route via GET (as by clicking a link or via redirect)
+		# else:
 
 @app.route("/", methods=["GET"])
 def get_index():
