@@ -223,7 +223,6 @@ def login():
 
 @app.route("/", methods=["GET"])
 def get_index():
-	
 	return render_template("index.html")
 
 if __name__ == '__main__':
