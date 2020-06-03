@@ -3,7 +3,7 @@
 {% block main %}
 
     <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
-    <h1 class="mb-3">Birdsong</h1>
+    <h1 class="mb-3">Birdsong Level {{level}}</h1>
 
     <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
     <form id = "birds" class="form"></form>
@@ -13,12 +13,7 @@
         
         <br>
         <div class ="inputGroup">
-        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['name']}}" />
-        <label for="radio">{{dict_item['name']}}</label>
-        </div>
-
-        <div class ="inputGroup">
-        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_a']}}">
+        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_a']}}" />
         <label for="radio">{{dict_item['option_a']}}</label>
         </div>
 
@@ -30,6 +25,11 @@
         <div class ="inputGroup">
         <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_c']}}">
         <label for="radio">{{dict_item['option_c']}}</label>
+        </div>
+
+        <div class ="inputGroup">
+        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_d']}}">
+        <label for="radio">{{dict_item['option_d']}}</label>
         </div>
     
     </form>
@@ -46,10 +46,14 @@
     </div>
 
     <br>
-    <br>
-
-
+    
     {% endfor %}
+
+    <form method="POST"><br>
+
+    <button class ="btn btn-primary" name="submit" next_level="{{level + 1}}">Next level</button>
+    
+    </form>
 
     <script>
     
